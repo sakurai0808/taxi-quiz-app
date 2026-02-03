@@ -7,6 +7,8 @@ import type { Question } from "@/types/quiz";
 export default function Home() {
   const [question, setQuestion] = useState<Question | null>(null);
   const [shuffledChoices, setShuffledChoices] = useState<string[]>([]); // シャッフルされた選択肢の入れ物
+  const [isAnswered, setIsAnswered] = useState(false); // 回答したかどうか
+  const [isCorrect, setIsCorrect] = useState(false); // 正解か不正解か
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -36,6 +38,16 @@ export default function Home() {
     fetchQuestions();
   }, []);
 
+  // 問題に回答したときの処理
+  const handleAnswer = (choice: string) => {
+    if (isAnswered) return;
+
+    setIsAnswered(true);
+    if (choice === question?.correct_answer) {
+      setIsCorrect(true);
+    }
+  };
+
   if (!question) return <p>読み込み中...</p>;
 
   return (
@@ -46,17 +58,36 @@ export default function Home() {
       <div>
         <img src="{question.image_url}" alt="施設のイラスト" />
       </div>
+
+      {/* 判定メッセージの表示 */}
+      {isAnswered && (
+        <div>
+          {isCorrect ? "正解!" : "残念..."}
+        </div>
+      )}
+
+      {/* 問題エリア */}
       <p>この施設の名前は?</p>
       <div>
         {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
           <button
             key={index}
-            onClick={() => alert(choice === question.correct_answer ? "正解!" : "残念..." )}
+            onClick={() => handleAnswer(choice)}
+            disabled={isAnswered}
           >
             {index + 1}. {choice}
           </button>
         ))}
       </div>
+
+      {/* 次へ進むボタン */}
+      {isAnswered && (
+        <button
+          onClick={() => window.location.reload()} // リロードして最初から
+        >
+          次の問題へ
+        </button>
+      )}
     </main>
   );
 }
