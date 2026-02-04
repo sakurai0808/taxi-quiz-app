@@ -16,23 +16,21 @@ export default function Home() {
       // supabaseのテーブルからデータを全て取得する
       const { data, error } = await supabase
         .from("questions")
-        .select("*");
+        .select("*")
+        .limit(10); // とりあえず上限を10件
 
       if (data && data.length > 0) {
-        const q = data[0];
+        const randomIndex = Math.floor(Math.random() * data.length); // 0~9の整数をランダムに生成
+        const q = data[randomIndex]; // 配列の序数をランダムにして問題をランダムに選ぶ
+
         setQuestion(q);
-
-      // 1つの配列にまとめる
-      const choices = [
-        q.correct_answer,
-        q.choice_2,
-        q.choice_3,
-        q.choice_4,
-      ];
-
-      // 配列をシャッフルする
-      const shuffled = choices.sort(() => Math.random());
-      setShuffledChoices(shuffled);
+        const choices = [
+          q.correct_answer,
+          q.choice_2,
+          q.choice_3,
+          q.choice_4,
+        ];
+        setShuffledChoices(choices.sort(() => Math.random() - 0.5));   
       }
     };
     fetchQuestions();
@@ -57,14 +55,7 @@ export default function Home() {
       {/* 施設のイラスト */}
       <div>
         <img src="{question.image_url}" alt="施設のイラスト" />
-      </div>
-
-      {/* 判定メッセージの表示 */}
-      {isAnswered && (
-        <div>
-          {isCorrect ? "正解!" : "残念..."}
-        </div>
-      )}
+      </div>      
 
       {/* 問題エリア */}
       <p>この施設の名前は?</p>
@@ -79,6 +70,13 @@ export default function Home() {
           </button>
         ))}
       </div>
+
+      {/* 判定メッセージの表示 */}
+      {isAnswered && (
+        <div>
+          {isCorrect ? "正解!" : "残念..."}
+        </div>
+      )}
 
       {/* 次へ進むボタン */}
       {isAnswered && (
