@@ -56,7 +56,9 @@ export default function Home() {
 
   return (
     <main>
-      <h1>タクシークイズ</h1>
+      <header>
+        <h1 className="text-center h-[80] text-3xl">タクシークイズ</h1>
+      </header>
 
       {/* 施設のイラスト */}
       <div>
