@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import type { Question } from "@/types/quiz";
 
@@ -10,31 +10,37 @@ export default function Home() {
   const [isAnswered, setIsAnswered] = useState(false); // 回答したかどうか
   const [isCorrect, setIsCorrect] = useState(false); // 正解か不正解か
 
-  useEffect(() => {
-    const fetchQuestions = async () => {
+  // 問題をセットアップする関数を独立させる
+  const loadNextQuestion = useCallback(async () => {
+    // 状態をリセットする
+    setIsAnswered(false);
+    setIsCorrect(false);   
 
-      // supabaseのテーブルからデータを全て取得する
-      const { data, error } = await supabase
-        .from("questions")
-        .select("*")
-        .limit(10); // とりあえず上限を10件
+    // supabaseのテーブルからデータを全て取得する
+    const { data, error } = await supabase
+      .from("questions")
+      .select("*")
+      .limit(10); // とりあえず上限を10件
 
-      if (data && data.length > 0) {
-        const randomIndex = Math.floor(Math.random() * data.length); // 0~9の整数をランダムに生成
-        const q = data[randomIndex]; // 配列の序数をランダムにして問題をランダムに選ぶ
+    if (data && data.length > 0) {
+      const randomIndex = Math.floor(Math.random() * data.length); // 0~9の整数をランダムに生成
+      const q = data[randomIndex]; // 配列の序数をランダムにして問題をランダムに選ぶ
 
-        setQuestion(q);
-        const choices = [
-          q.correct_answer,
-          q.choice_2,
-          q.choice_3,
-          q.choice_4,
-        ];
-        setShuffledChoices(choices.sort(() => Math.random() - 0.5));   
-      }
-    };
-    fetchQuestions();
+      setQuestion(q);
+      const choices = [
+        q.correct_answer,
+        q.choice_2,
+        q.choice_3,
+        q.choice_4,
+      ];
+      setShuffledChoices(choices.sort(() => Math.random() - 0.5));   
+    }
   }, []);
+
+  // 最初の読み込み
+  useEffect(() => {
+    loadNextQuestion();
+  }, [loadNextQuestion]);
 
   // 問題に回答したときの処理
   const handleAnswer = (choice: string) => {
@@ -81,7 +87,7 @@ export default function Home() {
       {/* 次へ進むボタン */}
       {isAnswered && (
         <button
-          onClick={() => window.location.reload()} // リロードして最初から
+          onClick={loadNextQuestion} // クリックすると関数をよぶ
         >
           次の問題へ
         </button>
