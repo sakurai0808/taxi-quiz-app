@@ -60,7 +60,7 @@ export default function Home() {
 
       {/* 施設のイラスト */}
       <div>
-        <img src="{question.image_url}" alt="施設のイラスト" />
+        <img src={question.image_url} alt="施設のイラスト" />
       </div>      
 
       {/* 問題エリア */}
