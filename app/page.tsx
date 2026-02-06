@@ -57,10 +57,10 @@ export default function Home() {
   return (
     <main>
       <header>
-        <h1 className="text-center h-[80] text-3xl">タクシークイズ</h1>
+        <h1 className="text-center h-[80] text-3xl border">タクシークイズ</h1>
       </header>
 
-      <section className="px-4">
+      <section className="px-4 py-4">
         {/* 施設のイラスト */}
         <div className="my-4">
           <img src={question.image_url} alt="施設のイラスト" />
@@ -68,7 +68,7 @@ export default function Home() {
         <div className="py-4">
           {/* 問題エリア */}
           <p className="text-center text-2xl">この施設の名前は?</p>
-          <div className="flex flex-col items-start gap-2 text-lg mt-4">
+          <div className="flex flex-col items-start gap-2 text-lg mt-4 px-4">
             {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
               <button
                 key={index}
@@ -82,7 +82,7 @@ export default function Home() {
         </div>
         {/* 判定メッセージの表示 */}
         {isAnswered && (
-          <div>
+          <div className="text-center text-2xl mt-[1em]">
             {isCorrect ? "正解!" : "残念..."}
           </div>
         )}
@@ -90,6 +90,7 @@ export default function Home() {
         {isAnswered && (
           <button
             onClick={loadNextQuestion} // クリックすると関数をよぶ
+            className="block text-xl mx-auto mt-[1em]"
           >
             次の問題へ
           </button>
