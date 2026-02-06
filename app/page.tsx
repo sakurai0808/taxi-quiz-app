@@ -60,40 +60,41 @@ export default function Home() {
         <h1 className="text-center h-[80] text-3xl">タクシークイズ</h1>
       </header>
 
-      {/* 施設のイラスト */}
-      <div>
-        <img src={question.image_url} alt="施設のイラスト" />
-      </div>      
-
-      {/* 問題エリア */}
-      <p>この施設の名前は?</p>
-      <div>
-        {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
-          <button
-            key={index}
-            onClick={() => handleAnswer(choice)}
-            disabled={isAnswered}
-          >
-            {index + 1}. {choice}
-          </button>
-        ))}
-      </div>
-
-      {/* 判定メッセージの表示 */}
-      {isAnswered && (
-        <div>
-          {isCorrect ? "正解!" : "残念..."}
+      <section className="px-4">
+        {/* 施設のイラスト */}
+        <div className="my-4">
+          <img src={question.image_url} alt="施設のイラスト" />
         </div>
-      )}
-
-      {/* 次へ進むボタン */}
-      {isAnswered && (
-        <button
-          onClick={loadNextQuestion} // クリックすると関数をよぶ
-        >
-          次の問題へ
-        </button>
-      )}
+        <div className="py-4">
+          {/* 問題エリア */}
+          <p className="text-center text-2xl">この施設の名前は?</p>
+          <div className="flex flex-col items-start text-lg">
+            {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
+              <button
+                key={index}
+                onClick={() => handleAnswer(choice)}
+                disabled={isAnswered}
+              >
+                {index + 1}. {choice}
+              </button>
+            ))}
+          </div>
+        </div>
+        {/* 判定メッセージの表示 */}
+        {isAnswered && (
+          <div>
+            {isCorrect ? "正解!" : "残念..."}
+          </div>
+        )}
+        {/* 次へ進むボタン */}
+        {isAnswered && (
+          <button
+            onClick={loadNextQuestion} // クリックすると関数をよぶ
+          >
+            次の問題へ
+          </button>
+        )}
+      </section>
     </main>
   );
 }
