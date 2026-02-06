@@ -60,7 +60,7 @@ export default function Home() {
         <h1 className="text-center h-[80] text-3xl border">タクシークイズ</h1>
       </header>
 
-      <section className="px-4 py-4">
+      <section className="px-4 py-4 mx-auto md:max-w-[800px]">
         {/* 施設のイラスト */}
         <div className="my-4">
           <img src={question.image_url} alt="施設のイラスト" />
