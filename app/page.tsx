@@ -68,7 +68,7 @@ export default function Home() {
         <div className="py-4">
           {/* 問題エリア */}
           <p className="text-center text-2xl">この施設の名前は?</p>
-          <div className="flex flex-col items-start text-lg">
+          <div className="flex flex-col items-start gap-2 text-lg mt-4">
             {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
               <button
                 key={index}
