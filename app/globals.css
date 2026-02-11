@@ -1,7 +1,14 @@
+@import url("https://use.typekit.net/smc4yhr.css");
 @import "tailwindcss";
+
+@theme {
+  --font-base: "dnp-shuei-gothic-gin-std", sans-serif;
+  /* --font-headline: "dnp-shuei-gothic-gin-std", sans-serif; */
+}
 
 @layer base {
   body {
+    font-family: var(--font-base);
     background-color: white;
     color: #000;
     line-height: 2;
