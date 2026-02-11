@@ -77,18 +77,19 @@ export default function Home() {
         <section className="px-4 py-4 mx-auto md:max-w-[800px]">
           {/* ページ内タイトル */}
           <h2 className="text-xl pb-[30px]">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
-          {/* 施設のイラスト */}
-          <div className="my-4 pt-[10px] pm-[40px]">
-            <img src={question.image_url} alt="施設のイラスト" />
+          {/* 問題画像 */}
+          <div className="pt-[10px] pb-[40px]">
+            <img src={question.image_url} alt="問題画像" />
           </div>
-          <div className="py-4">
-            {/* 問題エリア */}
-            <div className="flex flex-col items-start gap-2 text-lg mt-4 px-4">
+          <div className="pb-[30px]">
+            {/* 選択肢エリア */}
+            <div className="flex flex-col items-start gap-[1em] px-4">
               {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
                 <button
                   key={index}
                   onClick={() => handleAnswer(choice)}
                   disabled={isAnswered}
+                  className="w-full text-left bg-[#f5f5f5] px-[1em] py-[0.75em] rounded-[10px] text-base"
                 >
                   {index + 1}. {choice}
                 </button>
