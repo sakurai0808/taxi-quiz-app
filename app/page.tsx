@@ -94,23 +94,23 @@ export default function Home() {
                   {index + 1}. {choice}
                 </button>
               ))}
-            </div>
+            </div>            
+          </div>
+          {/* 次へ進むボタン */}            
+          <div>
+            <button
+              onClick={loadNextQuestion} // クリックすると関数をよぶ
+              className="block text-base mx-auto px-[3em] py-[1em] text-[#fff] bg-[#11ab42] rounded-full"
+            >
+              次の問題へすすむ
+            </button>
           </div>
           {/* 判定メッセージの表示 */}
           {isAnswered && (
             <div className="text-center text-2xl mt-[1em]">
               {isCorrect ? "正解!" : "残念..."}
             </div>
-          )}
-          {/* 次へ進むボタン */}
-          {isAnswered && (
-            <button
-              onClick={loadNextQuestion} // クリックすると関数をよぶ
-              className="block text-xl mx-auto mt-[1em]"
-            >
-              次の問題へ
-            </button>
-          )}
+          )}          
         </section>      
       </div>
     </main>
