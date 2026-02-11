@@ -76,7 +76,7 @@ export default function Home() {
       <div className="container py-[120px] pb-[60px]">
         <section className="px-4 py-4 mx-auto md:max-w-[800px]">
           {/* ページ内タイトル */}
-          <h2 className="text-xl pb-[30px] font-[500]">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
+          <h2 className="text-xl pb-[30px] font-medium">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
           {/* 問題画像 */}
           <div className="pt-[10px] pb-[40px]">
             <img src={question.image_url} alt="問題画像" />
@@ -100,7 +100,7 @@ export default function Home() {
           <div>
             <button
               onClick={loadNextQuestion} // クリックすると関数をよぶ
-              className="block text-base mx-auto px-[3em] py-[1em] text-[#fff] bg-[#11ab42] rounded-full"
+              className="block text-base mx-auto px-[3em] py-[1em] text-[#fff] bg-[#11ab42] rounded-full font-medium"
             >
               次の問題へすすむ
             </button>

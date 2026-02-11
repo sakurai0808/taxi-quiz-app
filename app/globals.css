@@ -3,7 +3,6 @@
 
 @theme {
   --font-base: "dnp-shuei-gothic-gin-std", sans-serif;
-  /* --font-headline: "dnp-shuei-gothic-gin-std", sans-serif; */
 }
 
 @layer base {
