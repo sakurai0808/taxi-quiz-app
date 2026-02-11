@@ -60,20 +60,20 @@ export default function Home() {
   if (!question) return <p>読み込み中...</p>;
 
   return (
-    <main>
-      <div className="container py-[60px]">      
-      <header className="w-full fixed z-[10] bg-white flex justify-between items-center h-[80px] px-[20px] md:px-[150px] border-b border-black/30">
-          <h1 className="md:text-2xl">タクシークイズ</h1>
-          <button className="md:text-xl" onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ?(<FontAwesomeIcon icon={faXmark} />) : (<FontAwesomeIcon icon={faBars} />)}
-          </button>
+    <main>            
+      <header className="w-full fixed z-[10] bg-white flex justify-between items-center h-[80px] px-[20px] md:px-[150px]      border-b border-black/30">
+        <h1 className="md:text-2xl">タクシークイズ</h1>
+        <button className="md:text-xl" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ?(<FontAwesomeIcon icon={faXmark} />) : (<FontAwesomeIcon icon={faBars} />)}
+        </button>
 
-          {/* メニューが開いたときのナビゲーション */}
-          {isOpen && (
-            <nav className="min-h-screen w-full absolute top-full left-0 flex flex-col items-center bg-white border-t border-black/30 text-lg space-y-[1em] py-[50px]">
-            </nav>
-          )}
-        </header>
+        {/* メニューが開いたときのナビゲーション */}
+        {isOpen && (
+          <nav className="min-h-screen w-full absolute top-full left-0 flex flex-col items-center bg-white border-t border-black/30 text-lg space-y-[1em] py-[50px]">
+          </nav>
+        )}
+      </header>
+      <div className="container py-[120px] pb-[60px]">
         <section className="px-4 py-4 mx-auto md:max-w-[800px]">
           {/* ページ内タイトル */}
           <h2 className="text-xl">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
