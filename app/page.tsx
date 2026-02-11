@@ -76,9 +76,9 @@ export default function Home() {
       <div className="container py-[120px] pb-[60px]">
         <section className="px-4 py-4 mx-auto md:max-w-[800px]">
           {/* ページ内タイトル */}
-          <h2 className="text-xl">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
+          <h2 className="text-xl pb-[30px]">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
           {/* 施設のイラスト */}
-          <div className="my-4">
+          <div className="my-4 pt-[10px] pm-[40px]">
             <img src={question.image_url} alt="施設のイラスト" />
           </div>
           <div className="py-4">
