@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
-:root {
-  background-color: white;
-  color: #1a1a1a;
+@layer base {
+  body {
+    background-color: white;
+    color: #000;
+    line-height: 2;
+  }
+}
+
+@layer utilities {
+  .text-xl {
+    line-height: 2;
+  }
 }

@@ -61,13 +61,14 @@ export default function Home() {
       </header>
 
       <section className="px-4 py-4 mx-auto md:max-w-[800px]">
+        {/* ページ内タイトル */}
+        <h2 className="text-xl">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
         {/* 施設のイラスト */}
         <div className="my-4">
           <img src={question.image_url} alt="施設のイラスト" />
         </div>
         <div className="py-4">
           {/* 問題エリア */}
-          <p className="text-center text-2xl">この施設の名前は?</p>
           <div className="flex flex-col items-start gap-2 text-lg mt-4 px-4">
             {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
               <button
