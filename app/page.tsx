@@ -4,7 +4,12 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import type { Question } from "@/types/quiz";
 
+// FontAwesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
   const [question, setQuestion] = useState<Question | null>(null);
   const [shuffledChoices, setShuffledChoices] = useState<string[]>([]); // シャッフルされた選択肢の入れ物
   const [isAnswered, setIsAnswered] = useState(false); // 回答したかどうか
@@ -55,47 +60,59 @@ export default function Home() {
   if (!question) return <p>読み込み中...</p>;
 
   return (
-    <main>
-      <header>
-        <h1 className="text-center h-[80] text-3xl border">タクシークイズ</h1>
-      </header>
+    <main>            
+      <header className="w-full fixed z-[10] bg-white flex justify-between items-center h-[80px] px-[20px] md:px-[150px]      border-b border-black/30">
+        <h1 className="md:text-2xl">タクシークイズ</h1>
+        <button className="md:text-xl" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ?(<FontAwesomeIcon icon={faXmark} />) : (<FontAwesomeIcon icon={faBars} />)}
+        </button>
 
-      <section className="px-4 py-4 mx-auto md:max-w-[800px]">
-        {/* 施設のイラスト */}
-        <div className="my-4">
-          <img src={question.image_url} alt="施設のイラスト" />
-        </div>
-        <div className="py-4">
-          {/* 問題エリア */}
-          <p className="text-center text-2xl">この施設の名前は?</p>
-          <div className="flex flex-col items-start gap-2 text-lg mt-4 px-4">
-            {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
-              <button
-                key={index}
-                onClick={() => handleAnswer(choice)}
-                disabled={isAnswered}
-              >
-                {index + 1}. {choice}
-              </button>
-            ))}
-          </div>
-        </div>
-        {/* 判定メッセージの表示 */}
-        {isAnswered && (
-          <div className="text-center text-2xl mt-[1em]">
-            {isCorrect ? "正解!" : "残念..."}
-          </div>
+        {/* メニューが開いたときのナビゲーション */}
+        {isOpen && (
+          <nav className="min-h-screen w-full absolute top-full left-0 flex flex-col items-center bg-white border-t border-black/30 text-lg space-y-[1em] py-[50px]">
+          </nav>
         )}
-        {/* 次へ進むボタン */}
-        {isAnswered && (
-          <button
-            onClick={loadNextQuestion} // クリックすると関数をよぶ
-            className="block text-xl mx-auto mt-[1em]"
-          >
-            次の問題へ
-          </button>
-        )}
-      </section>
+      </header>
+      <div className="container py-[120px] pb-[60px]">
+        <section className="px-4 py-4 mx-auto md:max-w-[800px]">
+          {/* ページ内タイトル */}
+          <h2 className="text-xl pb-[30px] font-medium">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
+          {/* 問題画像 */}
+          <div className="pt-[10px] pb-[40px]">
+            <img src={question.image_url} alt="問題画像" />
+          </div>
+          <div className="pb-[30px]">
+            {/* 選択肢エリア */}
+            <div className="flex flex-col items-start gap-[1em] px-4">
+              {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
+                <button
+                  key={index}
+                  onClick={() => handleAnswer(choice)}
+                  disabled={isAnswered}
+                  className="w-full text-left bg-[#f5f5f5] px-[1em] py-[0.75em] rounded-[10px] text-base font-[500]"
+                >
+                  {index + 1}. {choice}
+                </button>
+              ))}
+            </div>            
+          </div>
+          {/* 次へ進むボタン */}            
+          <div>
+            <button
+              onClick={loadNextQuestion} // クリックすると関数をよぶ
+              className="block text-base mx-auto px-[3em] py-[1em] text-[#fff] bg-[#11ab42] rounded-full font-medium"
+            >
+              次の問題へすすむ
+            </button>
+          </div>
+          {/* 判定メッセージの表示 */}
+          {isAnswered && (
+            <div className="text-center text-2xl mt-[1em]">
+              {isCorrect ? "正解!" : "残念..."}
+            </div>
+          )}          
+        </section>      
+      </div>
     </main>
   );
 }

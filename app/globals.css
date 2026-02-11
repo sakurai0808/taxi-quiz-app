@@ -1,6 +1,21 @@
+@import url("https://use.typekit.net/smc4yhr.css");
 @import "tailwindcss";
 
-:root {
-  background-color: white;
-  color: #1a1a1a;
+@theme {
+  --font-base: "dnp-shuei-gothic-gin-std", sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-base);
+    background-color: white;
+    color: #000;
+    line-height: 2;
+  }
+}
+
+@layer utilities {
+  .text-xl {
+    line-height: 2;
+  }
 }
