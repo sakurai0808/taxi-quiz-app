@@ -76,7 +76,7 @@ export default function Home() {
       </header>
       {/* メインコンテンツ */}
       <div className="container py-[120px] pb-[60px]">
-        {!isAnswered ? (
+        {!isAnswered ? ( // まだ回答していない状態
         /* クイズ回答画面 */
         <section className="px-4 py-4 mx-auto md:max-w-[800px]">
           {/* ページ内タイトル */}
@@ -111,10 +111,17 @@ export default function Home() {
           </div>                   
         </section>
         ) : ( 
-          /* クイズ回答画面 */         
+          /* クイズ解説画面 */         
           <section className="px-4 py-4 mx-auto md:max-w-[800px]">
-            <div className="text-center text-2xl mt-[1em]">
-              {isCorrect ? "正解!" : "残念..."}
+            <div className="text-center py-[30px]">
+              <div className={`inline-block text-center text-3xl px-[1em] text-white mx-auto
+                ${isCorrect
+                  ? "bg-red-500"
+                  : "bg-blue-500"
+                }`}
+              >
+                {isCorrect ? "正解!!" : "残念..."}
+              </div>
             </div>
             <h2 className="text-xl pb-[30px] font-medium">A. {question.correct_answer}</h2>
             {/* 解答画像 */}
