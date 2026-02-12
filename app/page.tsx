@@ -6,7 +6,8 @@ import type { Question } from "@/types/quiz";
 
 // FontAwesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faXmark,} from '@fortawesome/free-solid-svg-icons';
+import { faCircle} from '@fortawesome/free-regular-svg-icons';
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false); // ハンバーガーメニューに使用
@@ -111,7 +112,16 @@ export default function Home() {
                   : "bg-blue-500"
                 }`}
               >
-                {isCorrect ? "正解!!" : "残念..."}
+                <div className="flex gap-[0.5em] items-center">
+                  {isCorrect ? (
+                    <FontAwesomeIcon icon={faCircle} />
+                  ) : (
+                    <FontAwesomeIcon icon={faXmark} />
+                  )}
+
+                  {/* テキスト */}
+                  <span>{isCorrect ? "正解!!" : "残念..."}</span>
+                </div>
               </div>
             </div>
             <h2 className="text-xl pb-[30px] font-medium">A. {question.correct_answer}</h2>
