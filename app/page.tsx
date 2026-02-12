@@ -99,16 +99,7 @@ export default function Home() {
                 </button>
               ))}
             </div>            
-          </div>
-          {/* 次へ進むボタン */}            
-          <div>
-            <button
-              onClick={loadNextQuestion} // クリックすると関数をよぶ
-              className="block text-base mx-auto px-[3em] py-[1em] text-[#fff] bg-[#11ab42] rounded-full font-medium"
-            >
-              次の問題へすすむ
-            </button>
-          </div>                   
+          </div>               
         </section>
         ) : ( 
           /* クイズ解説画面 */         
