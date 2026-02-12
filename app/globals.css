@@ -15,7 +15,8 @@
 }
 
 @layer utilities {
-  .text-xl {
+  .text-xl,
+  .text-3xl {
     line-height: 2;
   }
 }
