@@ -112,7 +112,7 @@ export default function Home() {
         </section>
         ) : ( 
           /* クイズ回答画面 */         
-          <section>
+          <section className="px-4 py-4 mx-auto md:max-w-[800px]">
             <div className="text-center text-2xl mt-[1em]">
               {isCorrect ? "正解!" : "残念..."}
             </div>
