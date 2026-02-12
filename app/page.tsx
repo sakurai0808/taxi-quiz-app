@@ -60,7 +60,8 @@ export default function Home() {
   if (!question) return <p>読み込み中...</p>;
 
   return (
-    <main>            
+    <main>
+      {/* アプリ共通ヘッダー */}
       <header className="w-full fixed z-[10] bg-white flex justify-between items-center h-[80px] px-[20px] md:px-[150px]      border-b border-black/30">
         <h1 className="md:text-2xl">タクシークイズ</h1>
         <button className="md:text-xl" onClick={() => setIsOpen(!isOpen)}>
@@ -73,7 +74,10 @@ export default function Home() {
           </nav>
         )}
       </header>
+      {/* メインコンテンツ */}
       <div className="container py-[120px] pb-[60px]">
+        {!isAnswered ? (
+        /* クイズ回答画面 */
         <section className="px-4 py-4 mx-auto md:max-w-[800px]">
           {/* ページ内タイトル */}
           <h2 className="text-xl pb-[30px] font-medium">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
@@ -104,14 +108,30 @@ export default function Home() {
             >
               次の問題へすすむ
             </button>
-          </div>
-          {/* 判定メッセージの表示 */}
-          {isAnswered && (
+          </div>                   
+        </section>
+        ) : ( 
+          /* クイズ回答画面 */         
+          <section>
             <div className="text-center text-2xl mt-[1em]">
               {isCorrect ? "正解!" : "残念..."}
             </div>
-          )}          
-        </section>      
+            <h2 className="text-xl pb-[30px] font-medium">A. {question.correct_answer}</h2>
+            {/* 解答画像 */}
+            <div className="pt-[10px] pb-[40px]">
+              <img src={question.explanation_image_url} alt="問題画像" />
+            </div>
+            {/* 次へ進むボタン */}            
+            <div>
+              <button
+                onClick={loadNextQuestion} // クリックすると関数をよぶ
+                className="block text-base mx-auto px-[3em] py-[1em] text-[#fff] bg-[#11ab42] rounded-full font-medium"
+              >
+                次の問題へすすむ
+              </button>
+            </div>           
+          </section>
+          )} 
       </div>
     </main>
   );
