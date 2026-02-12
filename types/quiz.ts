@@ -5,4 +5,5 @@ export type Question = {
   choice_2: string;
   choice_3: string;
   choice_4: string;
+  explanation_image_url: string;
 };
