@@ -91,7 +91,7 @@ export default function Home() {
         )}
       </header>
       {/* メインコンテンツ */}
-      <div className="container py-[120px] pb-[60px]">
+      <div className="container mx-auto py-[120px] pb-[60px]">
         {isFinished ? (
           // 10問終了した場合、結果画面へ
           <section className="px-4 py-4 mx-auto md:max-w-[800px]">
