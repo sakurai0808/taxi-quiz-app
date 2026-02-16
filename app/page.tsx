@@ -65,7 +65,7 @@ export default function Home() {
 
   // 問題に回答したときの処理
   const handleAnswer = (choice: string) => {
-    const correct = choice === question.correct_answer;
+    const correct = choice === question?.correct_answer;
     setIsCorrect(correct);
     if (correct) {
       setScore(score + 1); // 正解のときスコアが増える
