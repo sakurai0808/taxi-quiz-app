@@ -15,47 +15,62 @@ export default function Home() {
   const [shuffledChoices, setShuffledChoices] = useState<string[]>([]); // シャッフルされた選択肢の入れ物
   const [isAnswered, setIsAnswered] = useState(false); // 回答したかどうか
   const [isCorrect, setIsCorrect] = useState(false); // 正解か不正解か
+  const [allQuestions, setAllQuestions] = useState<Question[]>([]); // DBから10問を取得して保存する
+  const [currentIndex, setCurrentIndex] = useState(0); // 現在 何問目かを示す
+  const [score, setScore] = useState(0); // 正解数
+  const [isFinished, setIsFinished] = useState(false); // 10問がすべて終了したか
 
-  // 問題をセットアップする関数を独立させる
-  const loadNextQuestion = useCallback(async () => {
-    // 状態をリセットする
-    setIsAnswered(false);
-    setIsCorrect(false);   
-
-    // supabaseのテーブルからデータを全て取得する
-    const { data, error } = await supabase
+  // 問題の仕組みをつくるための共通の処理
+  const setupQuestion = useCallback((q: Question) => {
+    setQuestion(q);
+    const choices = [
+      q.correct_answer,
+      q.choice_2,
+      q.choice_3,
+      q.choice_4,
+    ];
+    setShuffledChoices(choices.sort(() => Math.random() - 0.5));  // setShuffledChoicesにランダムに混ぜて入れる
+  }, []);
+  
+  // 最初に10問をセットする関数
+  const fetchQuiz = useCallback(async () => { // useCallbackで、再レンダリングされても実行されないようにする
+    const { data } = await supabase
       .from("questions")
       .select("*")
-      .limit(10); // とりあえず上限を10件
+      .limit(50);
 
-    if (data && data.length > 0) {
-      const randomIndex = Math.floor(Math.random() * data.length); // 0~9の整数をランダムに生成
-      const q = data[randomIndex]; // 配列の序数をランダムにして問題をランダムに選ぶ
-
-      setQuestion(q);
-      const choices = [
-        q.correct_answer,
-        q.choice_2,
-        q.choice_3,
-        q.choice_4,
-      ];
-      setShuffledChoices(choices.sort(() => Math.random() - 0.5));   
+    if (data) {
+      // ランダムに並び替えて先頭の10問を抽出する
+      const selected = data.sort(() => Math.random() - 0.5).slice(0, 10);
+      setAllQuestions(selected);
+      setupQuestion(selected[0]);
     }
-  }, []);
+  }, [setupQuestion]);
 
-  // 最初の読み込み
+  // 最初に読み込む
   useEffect(() => {
-    loadNextQuestion();
-  }, [loadNextQuestion]);
+    fetchQuiz();
+  }, [fetchQuiz]);
+
+  const loadNextQuestion = () => {
+    if (currentIndex < 9) {
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+      setupQuestion(allQuestions[nextIndex]); // 次の問題をセットする
+      setIsAnswered(false);
+    } else {
+      setIsFinished(true); // 10問終わった場合は終了
+    }
+  };
 
   // 問題に回答したときの処理
   const handleAnswer = (choice: string) => {
-    if (isAnswered) return;
-
-    setIsAnswered(true);
-    if (choice === question?.correct_answer) {
-      setIsCorrect(true);
+    const correct = choice === question.correct_answer;
+    setIsCorrect(correct);
+    if (correct) {
+      setScore(score + 1); // 正解のときスコアが増える
     }
+    setIsAnswered(true);
   };
 
   if (!question) return <p>読み込み中...</p>;
@@ -77,31 +92,44 @@ export default function Home() {
       </header>
       {/* メインコンテンツ */}
       <div className="container py-[120px] pb-[60px]">
-        {!isAnswered ? ( // まだ回答していない状態
-        /* クイズ回答画面 */
-        <section className="px-4 py-4 mx-auto md:max-w-[800px]">
-          {/* ページ内タイトル */}
-          <h2 className="text-xl pb-[30px] font-medium">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
-          {/* 問題画像 */}
-          <div className="pt-[10px] pb-[40px]">
-            <img src={question.image_url} alt="問題画像" />
-          </div>
-          <div className="pb-[30px]">
-            {/* 選択肢エリア */}
-            <div className="flex flex-col items-start gap-[1em] px-4">
-              {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(choice)}
-                  disabled={isAnswered}
-                  className="w-full text-left bg-[#f5f5f5] px-[1em] py-[0.75em] rounded-[10px] text-base font-[500]"
-                >
-                  {index + 1}. {choice}
-                </button>
-              ))}
-            </div>            
-          </div>               
-        </section>
+        {isFinished ? (
+          // 10問終了した場合、結果画面へ
+          <section>
+            <h2>クイズ終了！</h2>
+            <div>
+              <span>{score} / 10</span>
+            </div>
+            <button 
+              onClick={() => window.location.reload()} // 最初からやり直し
+            >
+              もう一度挑戦する
+            </button>
+          </section>
+          ) : !isAnswered ? (
+            /* クイズ回答画面 */
+            <section className="px-4 py-4 mx-auto md:max-w-[800px]">
+              {/* ページ内タイトル */}
+              <h2 className="text-xl pb-[30px] font-medium">Q.次の画像の中で、赤いエリアが示す施設の名前を答えてください。</h2>
+              {/* 問題画像 */}
+              <div className="pt-[10px] pb-[40px]">
+                <img src={question.image_url} alt="問題画像" />
+              </div>
+              <div className="pb-[30px]">
+                {/* 選択肢エリア */}
+                <div className="flex flex-col items-start gap-[1em] px-4">
+                  {shuffledChoices.map((choice, index) => ( // map関数は1に中身、2に番号が入る
+                    <button
+                      key={index}
+                      onClick={() => handleAnswer(choice)}
+                      disabled={isAnswered}
+                      className="w-full text-left bg-[#f5f5f5] px-[1em] py-[0.75em] rounded-[10px] text-base font-[500]"
+                    >
+                      {index + 1}. {choice}
+                    </button>
+                  ))}
+                </div>            
+              </div>               
+            </section>
         ) : ( 
           /* クイズ解説画面 */         
           <section className="px-4 py-4 mx-auto md:max-w-[800px]">
