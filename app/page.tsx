@@ -94,7 +94,7 @@ export default function Home() {
       <div className="container py-[120px] pb-[60px]">
         {isFinished ? (
           // 10問終了した場合、結果画面へ
-          <section>
+          <section className="px-4 py-4 mx-auto md:max-w-[800px]">
             <h2>クイズ終了！</h2>
             <div>
               <span>{score} / 10</span>
