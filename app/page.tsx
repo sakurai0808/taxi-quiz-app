@@ -95,12 +95,15 @@ export default function Home() {
         {isFinished ? (
           // 10問終了した場合、結果画面へ
           <section className="px-4 py-4 mx-auto md:max-w-[800px]">
-            <h2>クイズ終了！</h2>
-            <div>
-              <span>{score} / 10</span>
+            <h2 className="text-center text-3xl">クイズ終了！</h2>
+            <div className="text-center pb-[40px] space-y-4">
+              <p className="text-xl">10問中</p>
+              <p className="w-fit mx-auto text-4xl text-[#fff] bg-[#16D452] px-[2em] py-[1em]">{score}問</p>
+              <p className="text-xl">正解でした。</p>
             </div>
             <button 
               onClick={() => window.location.reload()} // 最初からやり直し
+              className="block text-base mx-auto px-[3em] py-[1em] text-[#fff] bg-[#11ab42] rounded-full font-medium"
             >
               もう一度挑戦する
             </button>
